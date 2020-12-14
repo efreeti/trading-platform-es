@@ -9,3 +9,15 @@ spring:
       host: localhost
       port: 27017
       database: accounts
+  kafka:
+    consumer:
+      group-id: account-service
+      value-deserializer: com.github.efreeti.trading.events.config.Jdk8JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.github.efreeti.trading.events.domain
+    producer:
+      value-serializer: com.github.efreeti.trading.events.config.Jdk8JsonSerializer
+      batch-size: 1
