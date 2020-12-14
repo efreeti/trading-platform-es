@@ -1,4 +1,4 @@
-package com.github.efreeti.trading.order.dto;
+package com.github.efreeti.trading.events.domain.order;
 
 public enum OrderStatus {
 	CREATED, ACCEPTED, REJECTED, PLACED, FULFILLED
