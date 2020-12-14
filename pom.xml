@@ -21,6 +21,11 @@
 		<lombok.version>1.18.0</lombok.version>
 	</properties>
 
+	<modules>
+		<module>account-service</module>
+		<module>order-service</module>
+	</modules>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
