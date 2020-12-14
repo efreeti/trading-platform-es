@@ -4,3 +4,8 @@ server:
 spring:
   application:
     name: account-service
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: accounts
