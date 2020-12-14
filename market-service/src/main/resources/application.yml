@@ -4,3 +4,15 @@ server:
 spring:
   application:
     name: market-service
+  kafka:
+    consumer:
+      group-id: market-service
+      value-deserializer: com.github.efreeti.trading.events.config.Jdk8JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.github.efreeti.trading.events.domain
+    producer:
+      value-serializer: com.github.efreeti.trading.events.config.Jdk8JsonSerializer
+      batch-size: 1
