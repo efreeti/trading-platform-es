@@ -18,4 +18,12 @@ public class AccountAggregate {
 	private UUID accountId;
 	private BigDecimal balance;
 	private AccountPortfolio portfolio;
+
+	public void subtractFromBalance(BigDecimal delta) {
+		setBalance(balance.subtract(delta));
+	}
+
+	public void addToBalance(BigDecimal delta) {
+		setBalance(balance.add(delta));
+	}
 }
