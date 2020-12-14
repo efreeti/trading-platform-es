@@ -24,6 +24,7 @@
 	<modules>
 		<module>account-service</module>
 		<module>order-service</module>
+		<module>market-service</module>
 	</modules>
 
 	<dependencyManagement>
