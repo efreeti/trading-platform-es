@@ -32,6 +32,98 @@ As can be noted on the diagram, to speed up development some entities
 were reused between "events" and "orders" bounded contexts, essentially
 breaking DDD principles. In realistic project decoupling would be done.
 
+## Flows
+
+![Account Creation Flow Diagram](Account%20Creation%20Flow%20Diagram.png)
+
+![Buy Order Flow Diagram](Buy%20Order%20Flow%20Diagram.png)
+
+![Sell Order Flow Diagram](Sell%20Order%20Flow%20Diagram.png)
+
+## Building
+
+To build the project run following command in the root:
+
+```
+mvn clean install
+```
+
+## Automated Testing
+
+There is only one JUnit test to show case testing. Tests are run as part of the build.
+To run tests separately:
+
+```
+mvn test
+```
+
+## Manual Testing
+
+To create account run following command in the root of the project:
+
+```
+./scripts/create-account.sh
+```
+
+This will return the account id. Use that in further testing.
+
+To see account balance open http://localhost:10000/<account-id>/balance in the browser.
+
+To see account portfolio open http://localhost:10000/<account-id>/portfolio in the browser.
+
+To create order run following command in the root of the project:
+
+```
+./scripts/create-order.sh <account-id> <BUY|SELL>? <instrument-id>? <quantity>? <price>?
+```
+
+This will return the order id. Use that in further testing.
+
+To see orders for account open http://localhost:10001/orders?accountId=<account-id> in the browser.
+
+To see specific order open http://localhost:10001/orders/<order-id> in the browser.
+
+
+## Running
+
+Project contains docker-compose configuration that represents the services
+and their dependencies. Each service has a Dockerfile describing it's docker
+image building strategy. Each service has application.yml for running outside
+docker and application-docker.yml for running inside docker.
+
+#### Run services and dependencies without docker
+
+You can install Zookeeper, Kafka and MongoDB standalone, change application.yml
+configs of all involved services and run services either using:
+
+```
+cd <name>-service
+mvn spring-boot:run
+```
+
+or
+
+```
+java -jar <name>-service-1.0.0-SNAPSHOT.jar
+```
+
+#### Run services without docker and dependencies with docker
+
+docker-compose can be used to spin up only Zookeeper, Kafka and MongoDB.
+Run following command in the root of the project:
+
+```
+docker-compose up zookeeper kafka mongo
+```
+
+Then run services as described in previous section.
+
+#### Run everything with docker
+
+```
+docker-compose up
+```
+
 ## Technology choices
 
 Maven was chosen over Gradle as a more familiar tool to speed up
