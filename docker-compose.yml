@@ -32,5 +32,43 @@ services:
     networks:
       - network1
 
+  account-sesrvice:
+    container_name: account-service
+    build:
+      context: ./account-service
+      dockerfile: ./Dockerfile
+    networks:
+      - network1
+    ports:
+      - "10000:10000"
+    depends_on:
+      - kafka
+      - mongo
+
+  order-sesrvice:
+    container_name: order-sesrvice
+    build:
+      context: ./order-service
+      dockerfile: ./Dockerfile
+    networks:
+      - network1
+    ports:
+      - "10001:10001"
+    depends_on:
+      - kafka
+      - mongo
+
+  market-sesrvice:
+    container_name: market-service
+    build:
+      context: ./market-service
+      dockerfile: ./Dockerfile
+    networks:
+      - network1
+    ports:
+      - "10002:10002"
+    depends_on:
+      - kafka
+
 networks:
   network1:
