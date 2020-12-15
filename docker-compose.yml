@@ -1,10 +1,10 @@
 version: "2"
 services:
   mongo:
-    image: mongo
+    image: flqw/docker-mongo-local-replicaset
     restart: always
     ports:
-      - 27017:27017
+      - 27017:27001
     networks:
       - network1
 

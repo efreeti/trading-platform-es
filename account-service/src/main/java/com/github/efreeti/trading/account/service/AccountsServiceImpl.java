@@ -14,6 +14,7 @@ import com.github.efreeti.trading.events.domain.order.OrderStatus;
 import com.github.efreeti.trading.events.service.EventsServiceBase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -34,6 +35,7 @@ public class AccountsServiceImpl extends EventsServiceBase implements AccountsSe
 	private final AccountsRepository accountsRepository;
 
 	@Override
+	@Transactional(transactionManager = "kafkaTransactionManager")
 	public UUID createAccount(CreateAccountCommand command) {
 		var accountId = UUID.randomUUID();
 
