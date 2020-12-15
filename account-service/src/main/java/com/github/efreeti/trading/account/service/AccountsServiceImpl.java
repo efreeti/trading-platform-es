@@ -56,6 +56,7 @@ public class AccountsServiceImpl extends EventsServiceBase implements AccountsSe
 		);
 	}
 
+	@Override
 	public void processAccountCreatedEvent(AccountCreatedEvent event) {
 		accountsRepository.save(new AccountAggregate(
 			event.getAccountId(),
@@ -64,6 +65,7 @@ public class AccountsServiceImpl extends EventsServiceBase implements AccountsSe
 		));
 	}
 
+	@Override
 	public void processOrderCreatedEvent(OrderCreatedEvent event) {
 		accountsRepository.findById(event.getAccountId()).ifPresentOrElse(
 			accountAggregate -> {
@@ -85,6 +87,7 @@ public class AccountsServiceImpl extends EventsServiceBase implements AccountsSe
 		);
 	}
 
+	@Override
 	public void processOrderStatusChangeEvent(OrderStatusChangeEvent event) {
 		if (event.getOrderStatus().equals(OrderStatus.FULFILLED)) {
 			accountsRepository.findById(event.getAccountId()).ifPresentOrElse(
