@@ -3,6 +3,8 @@
 "Simple" example of applying a very simplified version of event sourcing 
 pattern on the domain of financial instrument trading.
 
+**PLEASE READ COMPLETELY BEFORE EVALUATING**
+
 ## System Design
 
 ![System Diagram](System%20Diagram.png)
@@ -28,10 +30,6 @@ stock exchange market. This is a stub service with simplified logic.
 
 ![Events Entity Diagram](Events%20Entity%20Diagram.png)
 
-As can be noted on the diagram, to speed up development some entities
-were reused between "events" and "orders" bounded contexts, essentially
-breaking DDD principles. In realistic project decoupling would be done.
-
 ## Flows
 
 ![Account Creation Flow Diagram](Account%20Creation%20Flow%20Diagram.png)
@@ -39,6 +37,34 @@ breaking DDD principles. In realistic project decoupling would be done.
 ![Buy Order Flow Diagram](Buy%20Order%20Flow%20Diagram.png)
 
 ![Sell Order Flow Diagram](Sell%20Order%20Flow%20Diagram.png)
+
+## Design choices
+
+The designed and implemented system is not "pure" event sourcing.
+There were couple of simplification choices done due to the time
+constraints.
+
+First of all as focus was mostly on the order flow there is a 
+single central event store (using Kafka) and no separate stores 
+per bounded context. That would complicate the solution and would
+need additional time investment in designing fully decoupled
+systems. In the designed system majority of events are around order
+status changes and different components contribute to the order status
+changes directly. In a well designed event sourcing system each
+bounded context would potentially end up with own event store and
+would use event broker to align state.
+
+Secondly there is one step in the processing pipeline where service
+performs validations over aggregates and performs aggregate updates
+in the same "transaction" as producing subsequent event. Defining
+more solid flow in this area would require more substantial domain
+analysis and time investment to properly think through compensating
+actions/events and all possible scenarios.
+
+Additionally it can be noticed on the diagrams, that to speed up
+development some entities were reused between "events" and "orders"
+bounded contexts, essentially breaking DDD principles. In realistic
+project decoupling would be done.
 
 ## Building
 
@@ -126,7 +152,7 @@ docker-compose up
 
 ## Technology choices
 
-Maven was chosen over Gradle as a more familiar tool to speed up
+Maven was chosen over Gradle as a more fluent tool to speed up
 prototyping.
 
 For demonstrative purposes no event sourcing frameworks (like Axon)
@@ -135,7 +161,7 @@ were chosen for the prototype.
 Kafka was chosen as streaming platform and event store due to 
 it's characteristics that make it usable both as durable storage
 and streaming solution. In addition the most recent experience
-with messaging was with Kafka making prototyping faster. JSON
+with messaging was with Kafka, which speeds up prototyping. JSON
 was chosen as a persistence format out of simplicity, instead of
 choosing more production ready solutions like Avro or Protobuf.
 Single central "events" topic was used for storing/distributing 
@@ -159,8 +185,8 @@ UUID was used as identification scheme for entities to reduce
 time investment in prototype implementation. In production 
 environments identification scheme should be thought through better
 
-Microservices were built using Spring Boot stack, with additional
-usage of Spring Kafka and Spring Data MongoDB.
+Microservices were built using Spring Boot stack, with usage of 
+Spring MVC, Spring Kafka and Spring Data MongoDB.
 
 Most components for Spring Boot app use constructor injections
 with some minor exception that was done for convenience.
@@ -177,13 +203,6 @@ There were some choices made in the design of events domain (polymorphism)
 that are suitable for JSON serialization/deserialization strategy
 but would have to be rethought when using Avro/Protobuf.
 
-Event handling in accounts service is not "pure" event sourcing
-due to performing validations over aggregates and performing
-aggregate updates in the same "transaction" as producing subsequent
-event. Defining more solid flow in this area would require more
-substantial domain analysis and time investment to properly 
-think through compensating actions/events and all possible scenarios.
-
 In addition due to the complexity of transactionality in MongoDB and
 time constraints only partial solution is available on the 
-"transactional-solution" branch.
+"transactional-solution" branch (it's not finished).
