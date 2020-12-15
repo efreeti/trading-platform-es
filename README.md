@@ -22,7 +22,11 @@ stock exchange market. This is a stub service with simplified logic.
 
 ## Entities
 
-![Entity Diagram](Entity%20Diagram.png)
+![Accounts Entity Diagram](Accounts%20Entity%20Diagram.png)
+
+![Orders Entity Diagram](Orders%20Entity%20Diagram.png)
+
+![Events Entity Diagram](Events%20Entity%20Diagram.png)
 
 As can be noted on the diagram, to speed up development some entities
 were reused between "events" and "orders" bounded contexts, essentially
