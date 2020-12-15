@@ -23,12 +23,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AccountsServiceImpl extends EventsServiceBase implements AccountsService {
 	@RequiredArgsConstructor
-	private enum RejectionReason {
+	public enum RejectionReason {
 		NON_EXISTING_ACCOUNT("Order created for non existing account"),
 		NO_SUFFICIENT_BALANCE("No sufficient balance to perform buying order"),
 		NO_SUFFICIENT_QUANTITY("No sufficient quantity to perform selling order");
 
-		private final String message;
+		public final String message;
 	}
 
 	private final AccountsRepository accountsRepository;
