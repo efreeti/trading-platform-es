@@ -5,6 +5,7 @@ spring:
   application:
     name: market-service
   kafka:
+    bootstrap-servers: localhost:19092
     consumer:
       group-id: market-service
       value-deserializer: com.github.efreeti.trading.events.config.Jdk8JsonDeserializer

@@ -21,18 +21,18 @@ services:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_PORT: 9092
       KAFKA_ADVERTISED_HOST_NAME: kafka
-      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092"
-      KAFKA_LISTENERS: "PLAINTEXT://:9092"
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONNECTIONS_FROM_HOST://:19092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,CONNECTIONS_FROM_HOST://localhost:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONNECTIONS_FROM_HOST:PLAINTEXT
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
     ports:
-      - 9092:9092
+      - 19092:19092
     networks:
       - network1
 
-  account-sesrvice:
+  account-service:
     container_name: account-service
     build:
       context: ./account-service
@@ -45,7 +45,7 @@ services:
       - kafka
       - mongo
 
-  order-sesrvice:
+  order-service:
     container_name: order-sesrvice
     build:
       context: ./order-service
@@ -58,7 +58,7 @@ services:
       - kafka
       - mongo
 
-  market-sesrvice:
+  market-service:
     container_name: market-service
     build:
       context: ./market-service

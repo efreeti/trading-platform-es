@@ -10,6 +10,7 @@ spring:
       port: 27017
       database: orders
   kafka:
+    bootstrap-servers: localhost:19092
     consumer:
       group-id: order-service
       value-deserializer: com.github.efreeti.trading.events.config.Jdk8JsonDeserializer
